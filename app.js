@@ -45,7 +45,7 @@ function loadCustomers(e) {
 
       let output = '';
 
-      customers.foreach(function(customer){
+      customers.forEach(function(customer){
         output += `
         <ul>
           <li>ID: ${customer.id}</li>
@@ -53,7 +53,7 @@ function loadCustomers(e) {
           <li>Company: ${customer.company}</li>
           <li>Phone: ${customer.phone}</li>
         </ul>
-        `;
+      `;
       });
 
       document.getElementById('customers').innerHTML = output;
