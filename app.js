@@ -1,50 +1,64 @@
-document.getElementById('button').addEventListener('click', loadData);
+document.getElementById('button1').addEventListener('click', loadCustomer);
 
-function loadData() {
-  // Create an XHR Object
+document.getElementById('button2').addEventListener('click', loadCustomers);
+
+// Load Customer
+function loadCustomer(e) {
   const xhr = new XMLHttpRequest();
 
-  // OPEN
-  xhr.open('GET', 'data.txt', true);
-
-  // console.log('READYSTATE', xhr.readyState);
-
-  // Optional - Used for spinners/loaders
-  xhr.onprogress = function(){
-    console.log('READYSTATE', xhr.readyState);
-  }
+  xhr.open('GET', 'customer.json', true);
 
   xhr.onload = function(){
-    console.log('READYSTATE', xhr.readyState);
     if(this.status === 200){
       // console.log(this.responseText);
-      document.getElementById('output').innerHTML = `<h1>${this.responseText}</h1>`;
+
+      const customer = JSON.parse(this.responseText);
+
+      const output = `
+        <ul>
+          <li>ID: ${customer.id}</li>
+          <li>Name: ${customer.name}</li>
+          <li>Company: ${customer.company}</li>
+          <li>Phone: ${customer.phone}</li>
+        </ul>
+        `;
+
+        document.getElementById('customer').innerHTML = output;
     }
   }
 
-  // xhr.onreadystatechange = function() {
-  //   console.log('READYSTATE', xhr.readyState);
-  //   if(this.state == 200 && this.readyState === 4){
-  //     console.log(this.responseText); 
-  //   }
-  // }
-
-  xhr.oneerror = function(){
-    console.log('Request error...');
-  }
-  
   xhr.send();
+}
 
-  // readyState Values
-  // 0: request not initialized
-  // 1: server connection established
-  // 2: request recieved
-  // 3: processing request
-  // 4: request finished and response is ready
 
-  // HTTP Statuse
-  // 200: "OK"
-  // 403: "Forbidden"
-  // 404: "Not Found"
-  
+// Load Customers
+function loadCustomers(e) {
+  const xhr = new XMLHttpRequest();
+
+  xhr.open('GET', 'customers.json', true);
+
+  xhr.onload = function(){
+    if(this.status === 200){
+      // console.log(this.responseText);
+
+      const customers = JSON.parse(this.responseText);
+
+      let output = '';
+
+      customers.foreach(function(customer){
+        output += `
+        <ul>
+          <li>ID: ${customer.id}</li>
+          <li>Name: ${customer.name}</li>
+          <li>Company: ${customer.company}</li>
+          <li>Phone: ${customer.phone}</li>
+        </ul>
+        `;
+      });
+
+      document.getElementById('customers').innerHTML = output;
+    }
+  }
+
+  xhr.send();
 }
