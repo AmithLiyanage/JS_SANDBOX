@@ -1,64 +1,43 @@
-document.getElementById('button1').addEventListener('click', loadCustomer);
+const posts = [
+  {title: 'Post One', body: 'This is post one'},
+  {title: 'Post Two', body: 'This is post two'}
+];
 
-document.getElementById('button2').addEventListener('click', loadCustomers);
+// function createPost(post) {
+//   setTimeout(function() {
+//     posts.push(post);
+//   }, 2000); // 2000 ms
+// }
 
-// Load Customer
-function loadCustomer(e) {
-  const xhr = new XMLHttpRequest();
+// function getPosts() {
+//   setTimeout(function() {
+//     let output = '';
+//     posts.forEach(function(post) {
+//       output += `<li>${post.title}</li>`;
+//     });
+//     document.body.innerHTML = output;
+//   }, 1000); //1000 ms
+// }
 
-  xhr.open('GET', 'customer.json', true);
+// createPost({title: 'Post Three', body: 'This is post three'});
 
-  xhr.onload = function(){
-    if(this.status === 200){
-      // console.log(this.responseText);
+// getPosts();
 
-      const customer = JSON.parse(this.responseText);
-
-      const output = `
-        <ul>
-          <li>ID: ${customer.id}</li>
-          <li>Name: ${customer.name}</li>
-          <li>Company: ${customer.company}</li>
-          <li>Phone: ${customer.phone}</li>
-        </ul>
-        `;
-
-        document.getElementById('customer').innerHTML = output;
-    }
-  }
-
-  xhr.send();
+function createPost(post, callback) {
+  setTimeout(function() {
+    posts.push(post);
+    callback();
+  }, 2000); // 2000 ms
 }
 
-
-// Load Customers
-function loadCustomers(e) {
-  const xhr = new XMLHttpRequest();
-
-  xhr.open('GET', 'customers.json', true);
-
-  xhr.onload = function(){
-    if(this.status === 200){
-      // console.log(this.responseText);
-
-      const customers = JSON.parse(this.responseText);
-
-      let output = '';
-
-      customers.forEach(function(customer){
-        output += `
-        <ul>
-          <li>ID: ${customer.id}</li>
-          <li>Name: ${customer.name}</li>
-          <li>Company: ${customer.company}</li>
-          <li>Phone: ${customer.phone}</li>
-        </ul>
-      `;
-      });
-
-      document.getElementById('customers').innerHTML = output;
-    }
-  }
-
-  xhr.send();
+function getPosts() {
+  setTimeout(function() {
+    let output = '';
+    posts.forEach(function(post) {
+      output += `<li>${post.title}</li>`;
+    });
+    document.body.innerHTML = output;
+  }, 1000); //1000 ms
 }
+
+createPost({title: 'Post Three', body: 'This is post three'}, getPosts);
